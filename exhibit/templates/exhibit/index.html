@@ -1,9 +1,14 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'exhibit/style.css' %}">
+<link rel="icon" type="image/x-icon" href="{% static 'exhibit/favicon.ico' %}"/>
+
+<h3>Projects</h3>
+
 {% if latest_project_list %}
-    <ul>
     {% for project in latest_project_list %}
-        <li><a href="{% url 'exhibit:detail' project.id %}">{{ project.project_title }}</a></li>
+        <p><a href="{% url 'exhibit:detail' project.id %}">{{ project.project_title }}</a></p>
     {% endfor %}
-    </ul>
 {% else %}
     <p>No projects are available.</p>
 {% endif %}

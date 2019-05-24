@@ -1,0 +1,10 @@
+h3, p a {
+    color: white;
+}
+
+body {
+    background-image: url("images/background.png");
+    background-repeat: no-repeat;
+    background-color: #000000;
+
+}

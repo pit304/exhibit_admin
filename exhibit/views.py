@@ -1,17 +1,26 @@
-from django.http import Http404
-from django.shortcuts import render
+from django.views import generic
+from django.utils import timezone
 
 from .models import Project
 
+class IndexView(generic.ListView):
+    template_name = 'exhibit/index.html'
+    context_object_name = 'latest_project_list'
 
-def index(request):
-    latest_project_list = Project.objects.order_by('-pub_date')[:5]
-    context = {'latest_project_list': latest_project_list}
-    return render(request, 'exhibit/index.html', context)
+    def get_queryset(self):
+        """
+        Return the last five published projects (not including those set to be
+        published in the future).
+        """
+        return Project.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
-def detail(request, project_id):
-    try:
-        project = Project.objects.get(pk=project_id)
-    except Project.DoesNotExist:
-        raise Http404("Project does not exist")
-    return render(request, 'exhibit/detail.html', {'project': project})
+
+class DetailView(generic.DetailView):
+    model = Project
+    template_name = 'exhibit/detail.html'
+        
+    def get_queryset(self):
+        """
+        Excludes any projects that aren't published yet.
+        """
+        return Project.objects.filter(pub_date__lte=timezone.now())

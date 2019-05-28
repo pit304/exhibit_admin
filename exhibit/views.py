@@ -1,7 +1,9 @@
 from django.views import generic
 from django.utils import timezone
+from rest_framework import viewsets
 
-from .models import Project
+from .models import Project, Atelier
+from .serializers import ProjectSerializer, AtelierSerializer
 
 class IndexView(generic.ListView):
     template_name = 'exhibit/index.html'
@@ -24,3 +26,19 @@ class DetailView(generic.DetailView):
         Excludes any projects that aren't published yet.
         """
         return Project.objects.filter(pub_date__lte=timezone.now())
+
+# REST API views
+class ProjectViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows projects to be viewed or edited.
+    """
+    queryset = Project.objects.all().order_by('-pub_date')
+    serializer_class = ProjectSerializer
+
+
+class AtelierViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows atelier to be viewed or edited.
+    """
+    queryset = Atelier.objects.all()
+    serializer_class = AtelierSerializer

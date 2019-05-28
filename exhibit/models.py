@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils import timezone
 from datetime import datetime, timedelta   
+from ckeditor.fields import RichTextField
 
 class Atelier(models.Model):
-    atelier_text = models.TextField(max_length=2000)
+    atelier_text = RichTextField(config_name='awesome_ckeditor')
 
     def __str__(self):
         return self.atelier_text

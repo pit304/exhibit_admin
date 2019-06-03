@@ -24,7 +24,13 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ['pub_date']
     search_fields = ['project_title']
 
+class AtelierAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['atelier_text']})
+    ]
+    list_display = ['abstract']
+
 admin.site.register(Project, ProjectAdmin)
-admin.site.register(Atelier)
+admin.site.register(Atelier, AtelierAdmin)
 admin.site.register(Publication)
 admin.site.register(Competition)

@@ -4,10 +4,19 @@ from datetime import datetime, timedelta
 from ckeditor.fields import RichTextField
 
 class Atelier(models.Model):
-    atelier_text = RichTextField(config_name='awesome_ckeditor')
+    atelier_text = RichTextField(config_name='default')
 
     def __str__(self):
         return self.atelier_text
+
+    def abstract(self):
+        atelier_text = self.atelier_text.__str__()
+        if not atelier_text:
+            return 'Empty atelier text ' + str(self.id)
+        else:
+            return 'Atelier text ' + str(self.id)
+
+    abstract.short_description = 'Abstract'
 
 class Project(models.Model):
     project_title = models.CharField(max_length=200)

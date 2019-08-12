@@ -20,6 +20,7 @@ from exhibit import views
 
 router = routers.DefaultRouter()
 router.register(r'projects', views.ProjectViewSet)
+router.register(r'competitions', views.CompetitionViewSet)
 router.register(r'atelier', views.AtelierViewSet)
 
 # Wire up our API using automatic URL routing.

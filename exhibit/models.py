@@ -6,17 +6,11 @@ from ckeditor.fields import RichTextField
 class Atelier(models.Model):
     atelier_text = RichTextField(config_name='default')
 
-    def __str__(self):
-        return self.atelier_text
-
     def abstract(self):
-        atelier_text = self.atelier_text.__str__()
-        if not atelier_text:
-            return 'Empty atelier text ' + str(self.id)
-        else:
-            return 'Atelier text ' + str(self.id)
+        return 'Atelier text ' + str(self.id)
 
-    abstract.short_description = 'Abstract'
+    def __str__(self):
+        return 'Atelier text ' + str(self.id)
 
 class Project(models.Model):
     project_title = models.CharField(max_length=200)
@@ -38,13 +32,13 @@ class Project(models.Model):
 class Image(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     image_title = models.CharField(max_length=200)
-    image_url = models.URLField()
+    image = models.ImageField(default=None)
     active = models.BooleanField(default=True)
 
 class Plan(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     plan_title = models.CharField(max_length=200)
-    plan_url = models.URLField()
+    image = models.ImageField(default=None)
     active = models.BooleanField(default=True)
 
 class Publication(models.Model):
@@ -56,9 +50,12 @@ class Publication(models.Model):
         return self.publication_text
 
 class Competition(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    competition_text = models.TextField(max_length=2000)
+    title = models.CharField(max_length=200, default='No title')
     year = models.IntegerField(default=0)
+    competition_text = models.TextField(max_length=2000)
 
     def __str__(self):
-        return self.competition_text
+        if self.year == 0:
+            return self.title
+        else:
+            return self.title + ', ' + str(self.year)

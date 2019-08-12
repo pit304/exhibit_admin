@@ -2,8 +2,8 @@ from django.views import generic
 from django.utils import timezone
 from rest_framework import viewsets
 
-from .models import Project, Atelier
-from .serializers import ProjectSerializer, AtelierSerializer
+from .models import Project, Atelier, Competition
+from .serializers import ProjectSerializer, AtelierSerializer, CompetitionSerializer
 
 class IndexView(generic.ListView):
     template_name = 'exhibit/index.html'
@@ -42,3 +42,10 @@ class AtelierViewSet(viewsets.ModelViewSet):
     """
     queryset = Atelier.objects.all()
     serializer_class = AtelierSerializer
+
+class CompetitionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows atelier to be viewed or edited.
+    """
+    queryset = Competition.objects.all()
+    serializer_class = CompetitionSerializer

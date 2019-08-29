@@ -12,6 +12,9 @@ class Atelier(models.Model):
     def __str__(self):
         return 'Atelier text ' + str(self.id)
 
+    class Meta:
+        ordering = ['-id']
+
 class Project(models.Model):
     project_title = models.CharField(max_length=200)
     project_text = models.TextField(max_length=2000)
@@ -29,6 +32,9 @@ class Project(models.Model):
     was_published_recently.boolean = True
     was_published_recently.short_description = 'Published recently?'
     
+    class Meta:
+        ordering = ['-id']
+
 class Image(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     image_title = models.CharField(max_length=200)
@@ -49,6 +55,9 @@ class Publication(models.Model):
     def __str__(self):
         return self.publication_text
 
+    class Meta:
+        ordering = ['-id']
+
 class Competition(models.Model):
     title = models.CharField(max_length=200, default='No title')
     year = models.IntegerField(default=0)
@@ -59,3 +68,6 @@ class Competition(models.Model):
             return self.title
         else:
             return self.title + ', ' + str(self.year)
+    
+    class Meta:
+        ordering = ['-id']

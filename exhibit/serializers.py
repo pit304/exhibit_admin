@@ -1,4 +1,4 @@
-from .models import Project, Atelier, Competition
+from .models import Project, Atelier, Competition, Publication
 from rest_framework import serializers
 
 
@@ -17,3 +17,8 @@ class CompetitionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Competition
         fields = ['id', 'title', 'year', 'competition_text']
+
+class PublicationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Publication
+        fields = ['id', 'title', 'year', 'publication_text']

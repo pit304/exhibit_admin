@@ -48,12 +48,15 @@ class Plan(models.Model):
     active = models.BooleanField(default=True)
 
 class Publication(models.Model):
-    publication_title = models.CharField(max_length=200)
-    publication_text = models.TextField(max_length=2000)
+    title = models.CharField(max_length=200)
     year = models.IntegerField(default=0)
+    publication_text = models.TextField(max_length=2000)
 
     def __str__(self):
-        return self.publication_text
+        if self.year == 0:
+            return self.title
+        else:
+            return self.title + ', ' + str(self.year)
 
     class Meta:
         ordering = ['-id']

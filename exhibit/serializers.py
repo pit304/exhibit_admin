@@ -5,7 +5,7 @@ from rest_framework import serializers
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Project
-        fields = ['id', 'project_title', 'project_text', 'pub_date', 'active']
+        fields = ['id', 'project_title', 'project_text', 'order', 'active']
 
 
 class AtelierSerializer(serializers.HyperlinkedModelSerializer):

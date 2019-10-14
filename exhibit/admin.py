@@ -15,13 +15,8 @@ class PlanInline(admin.TabularInline):
     extra = 3
 
 class ProjectAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,               {'fields': ['project_title', 'project_text']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-    ]
     inlines = [ImageInline, PlanInline]
-    list_display = ('project_title', 'pub_date', 'was_published_recently')
-    list_filter = ['pub_date']
+    list_display = ('project_title', 'order', 'active')
     search_fields = ['project_title']
 
 class AtelierAdmin(admin.ModelAdmin):

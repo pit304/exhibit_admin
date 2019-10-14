@@ -1,10 +1,10 @@
 {% load static %}
 <link rel="icon" type="image/x-icon" href="{% static 'exhibit/favicon.ico' %}"/>
 
-<h1>{{ project.project_title }}</h1>
-<h2>{{ project.project_text }}</h2>
+<h1>{{ project.order }}. {{ project.project_title }}</h1>
+<p>{{ project.project_text|safe }}</p>
 <ul>
 {% for publication in project.publication_set.all %}
-    <li>{{ publication.publication_text }}</li>
+    <li>{{ publication.publication_text|safe }}</li>
 {% endfor %}
 </ul>

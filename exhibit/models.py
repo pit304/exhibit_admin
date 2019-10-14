@@ -17,35 +17,41 @@ class Atelier(models.Model):
 
 class Project(models.Model):
     project_title = models.CharField(max_length=200)
-    project_text = models.TextField(max_length=2000)
-    pub_date = models.DateTimeField('date published')
+    project_text = RichTextField(config_name='default')
+    order = models.IntegerField(default=1)
     active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.project_title
 
-    def was_published_recently(self):
-        now = timezone.now()
-        return now - timedelta(days=1) <= self.pub_date <= now
-
-    was_published_recently.admin_order_field = 'pub_date'
-    was_published_recently.boolean = True
-    was_published_recently.short_description = 'Published recently?'
-    
     class Meta:
-        ordering = ['-id']
+        ordering = ['order']
 
 class Image(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     image_title = models.CharField(max_length=200)
     image = models.ImageField(default=None)
+    order = models.IntegerField(default=1)
     active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.image_title
+
+    class Meta:
+        ordering = ['order']
 
 class Plan(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     plan_title = models.CharField(max_length=200)
     image = models.ImageField(default=None)
+    order = models.IntegerField(default=1)
     active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.plan_title
+
+    class Meta:
+        ordering = ['order']
 
 class Publication(models.Model):
     title = models.CharField(max_length=200)

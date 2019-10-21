@@ -3,7 +3,7 @@ from django.utils import timezone
 from rest_framework import viewsets
 
 from .models import Project, Atelier, Competition, Publication
-from .serializers import ProjectSerializer, AtelierSerializer, CompetitionSerializer, PublicationSerializer
+from .serializers import ProjectSerializer, ProjectListSerializer, AtelierSerializer, CompetitionSerializer, PublicationSerializer
 
 class IndexView(generic.ListView):
     template_name = 'exhibit/index.html'
@@ -34,6 +34,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
     """
     queryset = Project.objects.all().order_by('order')
     serializer_class = ProjectSerializer
+
+class ProjectListViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows projects to be viewed or edited.
+    """
+    queryset = Project.objects.all().order_by('order')
+    serializer_class = ProjectListSerializer
 
     def get_queryset(self):
         """

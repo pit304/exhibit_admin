@@ -19,7 +19,8 @@ from rest_framework import routers
 from exhibit import views
 
 router = routers.DefaultRouter()
-router.register(r'projects', views.ProjectViewSet)
+router.register(r'projects', views.ProjectListViewSet, basename='project-list')
+router.register(r'projects', views.ProjectViewSet, basename='project-detail')
 router.register(r'competitions', views.CompetitionViewSet)
 router.register(r'publications', views.PublicationViewSet)
 router.register(r'atelier', views.AtelierViewSet)

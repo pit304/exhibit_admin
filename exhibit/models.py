@@ -28,7 +28,7 @@ class Project(models.Model):
         ordering = ['order']
 
 class Image(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
     image_title = models.CharField(max_length=200)
     image = models.ImageField(default=None)
     order = models.IntegerField(default=1)
@@ -41,7 +41,7 @@ class Image(models.Model):
         ordering = ['order']
 
 class Plan(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='plans', on_delete=models.CASCADE)
     plan_title = models.CharField(max_length=200)
     image = models.ImageField(default=None)
     order = models.IntegerField(default=1)

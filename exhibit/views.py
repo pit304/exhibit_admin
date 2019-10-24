@@ -1,6 +1,7 @@
 from django.views import generic
 from django.utils import timezone
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 from .models import Project, Atelier, Competition, Publication
 from .serializers import ProjectSerializer, ProjectListSerializer, AtelierSerializer, CompetitionSerializer, PublicationSerializer
@@ -35,25 +36,21 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all().order_by('order')
     serializer_class = ProjectSerializer
 
-class ProjectListViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows projects to be viewed or edited.
-    """
-    queryset = Project.objects.all().order_by('order')
-    serializer_class = ProjectListSerializer
-
-    def get_queryset(self):
-        """
-        Optionally restrict the returned projects to active/inactive,
-        by filtering against the `active` query parameter in the URL.
-        """
-        queryset_local = super().get_queryset()
+    def list(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
         active = str(self.request.query_params.get('active')).lower()
         if active in ['true', '1', 'yes']:
-            queryset_local = queryset_local.filter(active=True)
+            queryset = queryset.filter(active=True)
         elif active in ['false', '0', 'no']:
-            queryset_local = queryset_local.filter(active=False)
-        return queryset_local
+            queryset = queryset.filter(active=False)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = ProjectListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 class AtelierViewSet(viewsets.ModelViewSet):
     """

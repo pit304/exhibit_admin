@@ -33,6 +33,9 @@ class Project(models.Model):
     def plan_list(self):
         return Image.objects.filter(project=self, is_plan=True)
 
+    def main_image(self):
+        return self.image_list()[0]
+
 class Image(models.Model):
     project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)

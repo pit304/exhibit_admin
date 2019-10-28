@@ -25,9 +25,11 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'project_title', 'project_text', 'order', 'active', 'images', 'plans']
 
 class ProjectListSerializer(serializers.HyperlinkedModelSerializer):
+    main_image = ImageSerializer(read_only=True)
+    
     class Meta:
         model = Project
-        fields = ['id', 'project_title', 'project_text', 'order', 'active']
+        fields = ['id', 'project_title', 'project_text', 'order', 'active', 'main_image']
 
 class PublicationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

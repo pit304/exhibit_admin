@@ -1,4 +1,4 @@
-from .models import Project, Image, Plan, Atelier, Competition, Publication
+from .models import Project, Image, Atelier, Competition, Publication
 from rest_framework import serializers
 
 class AtelierSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,16 +9,16 @@ class AtelierSerializer(serializers.HyperlinkedModelSerializer):
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = ['id', 'image_title', 'order', 'active']
+        fields = ['id', 'title', 'is_plan', 'order', 'active']
 
 class PlanSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Plan
-        fields = ['id', 'plan_title', 'order', 'active']
+        model = Image
+        fields = ['id', 'title', 'is_plan', 'order', 'active']
 
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
-    plans = PlanSerializer(many=True,read_only=True)
+    images = ImageSerializer(source="image_list", many=True, read_only=True)
+    plans = PlanSerializer(source='plan_list', many=True, read_only=True)
 
     class Meta:
         model = Project

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Atelier, Project, Publication, Competition, Image, Plan
+from .models import Atelier, Project, Publication, Competition, Image
 
 admin.site.site_header = 'Exhibit administration'
 admin.site.site_title = 'Exhibit site admin'
@@ -10,12 +10,8 @@ class ImageInline(admin.TabularInline):
     model = Image
     extra = 3
 
-class PlanInline(admin.TabularInline):
-    model = Plan
-    extra = 3
-
 class ProjectAdmin(admin.ModelAdmin):
-    inlines = [ImageInline, PlanInline]
+    inlines = [ImageInline]
     list_display = ('project_title', 'order', 'active')
     search_fields = ['project_title']
 

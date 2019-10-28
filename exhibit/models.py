@@ -27,31 +27,25 @@ class Project(models.Model):
     class Meta:
         ordering = ['order']
 
+    def image_list(self):
+        return Image.objects.filter(project=self, is_plan=False)
+
+    def plan_list(self):
+        return Image.objects.filter(project=self, is_plan=True)
+
 class Image(models.Model):
     project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
-    image_title = models.CharField(max_length=200)
-    image = models.ImageField(default=None)
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="images", default=None)
+    is_plan = models.BooleanField(default=False)
     order = models.IntegerField(default=1)
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.image_title
+        return self.title
 
     class Meta:
-        ordering = ['order']
-
-class Plan(models.Model):
-    project = models.ForeignKey(Project, related_name='plans', on_delete=models.CASCADE)
-    plan_title = models.CharField(max_length=200)
-    image = models.ImageField(default=None)
-    order = models.IntegerField(default=1)
-    active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.plan_title
-
-    class Meta:
-        ordering = ['order']
+        ordering = ['is_plan', 'order']
 
 class Publication(models.Model):
     title = models.CharField(max_length=200)

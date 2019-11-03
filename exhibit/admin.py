@@ -9,6 +9,8 @@ admin.site.index_title = 'Site administration'
 class ImageInline(admin.TabularInline):
     model = Image
     extra = 3
+    fields = ['image_tag', 'title', 'image', 'is_plan', 'order', 'active']
+    readonly_fields = ['image_tag']
 
 class ProjectAdmin(admin.ModelAdmin):
     inlines = [ImageInline]

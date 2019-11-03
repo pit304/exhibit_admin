@@ -9,12 +9,12 @@ class AtelierSerializer(serializers.HyperlinkedModelSerializer):
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = ['id', 'title', 'is_plan', 'order', 'active']
+        fields = ['id', 'title', 'url', 'is_plan', 'order', 'active']
 
 class PlanSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = ['id', 'title', 'is_plan', 'order', 'active']
+        fields = ['id', 'title', 'url', 'is_plan', 'order', 'active']
 
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     images = ImageSerializer(source="image_list", many=True, read_only=True)

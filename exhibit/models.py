@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from datetime import datetime, timedelta   
 from ckeditor.fields import RichTextField
 
@@ -39,13 +40,27 @@ class Project(models.Model):
 class Image(models.Model):
     project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="images", default=None)
+    image = models.ImageField(upload_to="images/", default=None)
     is_plan = models.BooleanField(default=False)
     order = models.IntegerField(default=1)
     active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
+
+    def image_tag(self):
+        if self.image:
+            return mark_safe('<img src="/media/%s" width="150" height="150" />' % (self.image))
+        else:
+            return "No image"
+
+    def url(self):
+        if self.image:
+            return mark_safe('/media/%s' % (self.image))
+        else:
+            return ""
+
+    image_tag.short_description = 'Preview'
 
     class Meta:
         ordering = ['is_plan', 'order']

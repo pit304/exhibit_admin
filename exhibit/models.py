@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.utils import timezone
 from django.utils.safestring import mark_safe
@@ -37,10 +38,14 @@ class Project(models.Model):
     def main_image(self):
         return self.image_list()[0]
 
+def get_upload_path(instance, filename):
+    return os.path.join(
+        "images", "%d" % instance.project_id, filename)
+        
 class Image(models.Model):
     project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="images/", default=None)
+    image = models.ImageField(upload_to=get_upload_path, default=None)
     is_plan = models.BooleanField(default=False)
     order = models.IntegerField(default=1)
     active = models.BooleanField(default=True)

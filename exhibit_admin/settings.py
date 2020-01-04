@@ -148,6 +148,5 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = [
-    'http://100.115.92.197:8100',
     'http://localhost:8100'
 ]

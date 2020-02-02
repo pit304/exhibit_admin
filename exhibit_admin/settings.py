@@ -151,5 +151,6 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8100'
+    'http://localhost:8100',
+    'https://exhibit.petrencu.ro'
 ]
